@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../widgets/progress_ring.dart';
+import '../widgets/difficulty_card.dart';
 
 
 import '../widgets/stat_card.dart';
@@ -118,10 +119,10 @@ Widget buildStatistics(List<QueryDocumentSnapshot> docs) {
 
       const SizedBox(height: 25),
 
-      buildDifficultyCard(
-  beginner,
-  intermediate,
-  advanced,
+      DifficultyCard(
+  beginner: beginner,
+  intermediate: intermediate,
+  advanced: advanced,
 ),
 
 const SizedBox(height: 25),
@@ -197,62 +198,6 @@ Widget buildOverviewCards(
 );
 }
 
-Widget buildDifficultyCard(
-    int beginner,
-    int intermediate,
-    int advanced,
-) {
-
-  return Card(
-
-    child: Padding(
-
-      padding: const EdgeInsets.all(20),
-
-      child: Column(
-
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-        children: [
-
-          const Text(
-            "Difficulty Distribution",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 15),
-
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundColor: Colors.green,
-            ),
-            title: const Text("Beginner"),
-            trailing: Text(beginner.toString()),
-          ),
-
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundColor: Colors.orange,
-            ),
-            title: const Text("Intermediate"),
-            trailing: Text(intermediate.toString()),
-          ),
-
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundColor: Colors.red,
-            ),
-            title: const Text("Advanced"),
-            trailing: Text(advanced.toString()),
-          ),
-        ],
-      ),
-    ),
-  );
-}
 
 Widget buildPieChart(
 
