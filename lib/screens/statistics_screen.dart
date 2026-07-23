@@ -6,7 +6,7 @@ import '../widgets/progress_ring.dart';
 import '../widgets/difficulty_card.dart';
 import '../widgets/difficulty_pie_chart.dart';
 import '../widgets/latest_skill_card.dart';
-
+import '../widgets/overview_cards.dart';
 
 import '../widgets/stat_card.dart';
 
@@ -103,15 +103,15 @@ Widget buildStatistics(List<QueryDocumentSnapshot> docs) {
 
   return ListView(
 
-    padding: const EdgeInsets.all(20),
+    padding: const EdgeInsets.all(16),
 
     children: [
 
-      buildOverviewCards(
-        total,
-        completed,
-        average,
-      ),
+      OverviewCards(
+  total: total,
+  completed: completed,
+  average: average,
+),
 
       const SizedBox(height: 25),
 
@@ -150,55 +150,7 @@ DifficultyPieChart(
   );
 }
  
-Widget buildOverviewCards(
-  int total,
-  int completed,
-  double average,
-) {
-  return LayoutBuilder(
-    builder: (context, constraints) {
-      final isMobile = constraints.maxWidth < 600;
 
-      return GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: isMobile ? 2 : 4,
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 15,
-        childAspectRatio: isMobile ? 1.1 : 1.4,
-        children: [
-          StatCard(
-            icon: Icons.menu_book_rounded,
-            color: Colors.blue,
-            title: "Total Skills",
-            value: total.toString(),
-          ),
-
-          StatCard(
-            icon: Icons.check_circle,
-            color: Colors.green,
-            title: "Completed",
-            value: completed.toString(),
-          ),
-
-          StatCard(
-            icon: Icons.local_fire_department,
-            color: Colors.orange,
-            title: "In Progress",
-            value: (total - completed).toString(),
-          ),
-
-          StatCard(
-            icon: Icons.trending_up,
-            color: Colors.indigo,
-            title: "Average",
-            value: "${average.toStringAsFixed(0)}%",
-          ),
-        ],
-      );
-    },
-  );
-}
 
   Widget buildCard(String title, String value) {
 
