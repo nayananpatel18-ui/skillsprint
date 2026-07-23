@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'dart:math';
+import '../widgets/progress_ring.dart';
 
+
+import '../widgets/stat_card.dart';
 
 class StatisticsScreen extends StatelessWidget {
   const StatisticsScreen({super.key});
@@ -110,7 +112,9 @@ Widget buildStatistics(List<QueryDocumentSnapshot> docs) {
 
       const SizedBox(height: 25),
 
-      buildOverallProgress(average),
+      ProgressRing(
+  average: average,
+),
 
       const SizedBox(height: 25),
 
@@ -143,159 +147,54 @@ buildPieChart(
  
  
 Widget buildOverviewCards(
-    int total,
-    int completed,
-    double average,
+  int total,
+  int completed,
+  double average,
 ) {
+ return LayoutBuilder(
+  builder: (context, constraints) {
+    final isMobile = constraints.maxWidth < 600;
 
-  return Column(
-
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: isMobile ? 2 : 4,
+      crossAxisSpacing: 15,
+      mainAxisSpacing: 15,
+      childAspectRatio: isMobile ? 1.1 : 1.4,
     children: [
 
-      buildCard(
-        "📚 Total Skills",
-        total.toString(),
+      StatCard(
+        icon: Icons.menu_book_rounded,
+        color: Colors.blue,
+        title: "Total Skills",
+        value: total.toString(),
       ),
 
-      buildCard(
-        "✅ Completed",
-        completed.toString(),
+      StatCard(
+        icon: Icons.check_circle,
+        color: Colors.green,
+        title: "Completed",
+        value: completed.toString(),
       ),
 
-      buildCard(
-        "🔥 In Progress",
-        (total - completed).toString(),
+      StatCard(
+        icon: Icons.local_fire_department,
+        color: Colors.orange,
+        title: "In Progress",
+        value: (total - completed).toString(),
       ),
 
-      buildCard(
-        "📈 Average Progress",
-        "${average.toStringAsFixed(0)}%",
+      StatCard(
+        icon: Icons.trending_up,
+        color: Colors.indigo,
+        title: "Average",
+        value: "${average.toStringAsFixed(0)}%",
       ),
     ],
   );
-}
-Widget buildOverallProgress(double average) {
-
-  return Card(
-
-    elevation: 6,
-
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20),
-    ),
-
-    child: Padding(
-
-      padding: const EdgeInsets.all(25),
-
-      child: Column(
-
-        children: [
-
-          const Text(
-
-            "Overall Progress",
-
-            style: TextStyle(
-
-              fontSize: 22,
-
-              fontWeight: FontWeight.bold,
-
-            ),
-
-          ),
-
-          const SizedBox(height: 25),
-
-          SizedBox(
-
-            width: 180,
-
-            height: 180,
-
-            child: Stack(
-
-              alignment: Alignment.center,
-
-              children: [
-
-                SizedBox(
-  width: 180,
-  height: 180,
-  child: TweenAnimationBuilder<double>(
-    tween: Tween(
-      begin: 0,
-      end: average / 100,
-    ),
-    duration: const Duration(seconds: 2),
-    curve: Curves.easeInOut,
-    builder: (context, value, child) {
-      return CircularProgressIndicator(
-        value: value,
-        strokeWidth: 14,
-        backgroundColor: Colors.grey.shade300,
-        color: Colors.indigo,
-      );
-    },
-  ),
-),
-
-                Column(
-
-                  mainAxisAlignment: MainAxisAlignment.center,
-
-                  children: [
-
-                    TweenAnimationBuilder<double>(
-  tween: Tween(
-    begin: 0,
-    end: average,
-  ),
-  duration: const Duration(seconds: 2),
-  curve: Curves.easeInOut,
-  builder: (context, value, child) {
-    return Text(
-      "${value.toInt()}%",
-      style: const TextStyle(
-        fontSize: 34,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  },
-),
-                    const SizedBox(height: 5),
-
-                    const Text(
-
-                      "Completed",
-
-                      style: TextStyle(
-
-                        color: Colors.grey,
-
-                      ),
-
-                    ),
-
-                  ],
-
-                ),
-
-              ],
-
-            ),
-
-          ),
-
-        ],
-
-      ),
-
-    ),
-
-  );
-
+},
+);
 }
 
 Widget buildDifficultyCard(
