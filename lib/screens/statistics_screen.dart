@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '../widgets/motivation_card.dart';
 import '../widgets/progress_ring.dart';
 import '../widgets/difficulty_card.dart';
 import '../widgets/difficulty_pie_chart.dart';
@@ -144,7 +144,7 @@ DifficultyPieChart(
 
       const SizedBox(height: 25),
 
-      buildMotivationCard(),
+      const MotivationCard(),
 
     ],
   );
@@ -197,37 +197,6 @@ Widget buildOverviewCards(
         ],
       );
     },
-  );
-}
-Widget buildMotivationCard() {
-
-  return Card(
-
-    child: Padding(
-
-      padding: const EdgeInsets.all(20),
-
-      child: Column(
-
-        children: const [
-
-          Text(
-            "Keep Going! 🚀",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          SizedBox(height: 10),
-
-          Text(
-            "Every skill you learn today builds your future.",
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    ),
   );
 }
 
