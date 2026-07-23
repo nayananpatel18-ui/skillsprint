@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../widgets/progress_ring.dart';
 import '../widgets/difficulty_card.dart';
+import '../widgets/difficulty_pie_chart.dart';
 
 
 import '../widgets/stat_card.dart';
@@ -127,10 +128,10 @@ Widget buildStatistics(List<QueryDocumentSnapshot> docs) {
 
 const SizedBox(height: 25),
 
-buildPieChart(
-  beginner,
-  intermediate,
-  advanced,
+DifficultyPieChart(
+  beginner: beginner,
+  intermediate: intermediate,
+  advanced: advanced,
 ),
 
 
@@ -199,167 +200,6 @@ Widget buildOverviewCards(
 }
 
 
-Widget buildPieChart(
-
-    int beginner,
-    int intermediate,
-    int advanced,
-
-) {
-
-  return Card(
-
-    child: Padding(
-
-      padding: const EdgeInsets.all(20),
-
-      child: Column(
-
-        children: [
-
-          const Text(
-
-            "Difficulty Chart",
-
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-
-          ),
-
-          const SizedBox(height: 20),
-
-          SizedBox(
-
-            height: 220,
-
-            child: PieChart(
-
-              PieChartData(
-
-                sectionsSpace: 4,
-
-                centerSpaceRadius: 45,
-
-                sections: [
-
-                  PieChartSectionData(
-
-                    value: beginner.toDouble(),
-
-                    color: Colors.green,
-
-                    title: beginner.toString(),
-
-                    radius: 65,
-
-                  ),
-
-                  PieChartSectionData(
-
-                    value: intermediate.toDouble(),
-
-                    color: Colors.orange,
-
-                    title: intermediate.toString(),
-
-                    radius: 65,
-
-                  ),
-
-                  PieChartSectionData(
-
-                    value: advanced.toDouble(),
-
-                    color: Colors.red,
-
-                    title: advanced.toString(),
-
-                    radius: 65,
-
-                  ),
-
-                ],
-
-              ),
-
-            ),
-
-          ),
-
-          const SizedBox(height: 20),
-
-          const Row(
-
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-            children: [
-
-              Row(
-
-                children: [
-
-                  CircleAvatar(
-                    radius: 6,
-                    backgroundColor: Colors.green,
-                  ),
-
-                  SizedBox(width: 5),
-
-                  Text("Beginner"),
-
-                ],
-
-              ),
-
-              Row(
-
-                children: [
-
-                  CircleAvatar(
-                    radius: 6,
-                    backgroundColor: Colors.orange,
-                  ),
-
-                  SizedBox(width: 5),
-
-                  Text("Intermediate"),
-
-                ],
-
-              ),
-
-              Row(
-
-                children: [
-
-                  CircleAvatar(
-                    radius: 6,
-                    backgroundColor: Colors.red,
-                  ),
-
-                  SizedBox(width: 5),
-
-                  Text("Advanced"),
-
-                ],
-
-              ),
-
-            ],
-
-          ),
-
-        ],
-
-      ),
-
-    ),
-
-  );
-
-}
 
 Widget buildLatestSkill(String latestSkill) {
 
