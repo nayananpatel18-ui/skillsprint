@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fl_chart/fl_chart.dart';
+
 import '../widgets/progress_ring.dart';
 import '../widgets/difficulty_card.dart';
 import '../widgets/difficulty_pie_chart.dart';
+import '../widgets/latest_skill_card.dart';
 
 
 import '../widgets/stat_card.dart';
@@ -137,7 +138,9 @@ DifficultyPieChart(
 
       const SizedBox(height: 25),
 
-      buildLatestSkill(latestSkill),
+      LatestSkillCard(
+  latestSkill: latestSkill,
+),
 
       const SizedBox(height: 25),
 
@@ -147,80 +150,55 @@ DifficultyPieChart(
   );
 }
  
- 
 Widget buildOverviewCards(
   int total,
   int completed,
   double average,
 ) {
- return LayoutBuilder(
-  builder: (context, constraints) {
-    final isMobile = constraints.maxWidth < 600;
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      final isMobile = constraints.maxWidth < 600;
 
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: isMobile ? 2 : 4,
-      crossAxisSpacing: 15,
-      mainAxisSpacing: 15,
-      childAspectRatio: isMobile ? 1.1 : 1.4,
-    children: [
+      return GridView.count(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: isMobile ? 2 : 4,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        childAspectRatio: isMobile ? 1.1 : 1.4,
+        children: [
+          StatCard(
+            icon: Icons.menu_book_rounded,
+            color: Colors.blue,
+            title: "Total Skills",
+            value: total.toString(),
+          ),
 
-      StatCard(
-        icon: Icons.menu_book_rounded,
-        color: Colors.blue,
-        title: "Total Skills",
-        value: total.toString(),
-      ),
+          StatCard(
+            icon: Icons.check_circle,
+            color: Colors.green,
+            title: "Completed",
+            value: completed.toString(),
+          ),
 
-      StatCard(
-        icon: Icons.check_circle,
-        color: Colors.green,
-        title: "Completed",
-        value: completed.toString(),
-      ),
+          StatCard(
+            icon: Icons.local_fire_department,
+            color: Colors.orange,
+            title: "In Progress",
+            value: (total - completed).toString(),
+          ),
 
-      StatCard(
-        icon: Icons.local_fire_department,
-        color: Colors.orange,
-        title: "In Progress",
-        value: (total - completed).toString(),
-      ),
-
-      StatCard(
-        icon: Icons.trending_up,
-        color: Colors.indigo,
-        title: "Average",
-        value: "${average.toStringAsFixed(0)}%",
-      ),
-    ],
-  );
-},
-);
-}
-
-
-
-Widget buildLatestSkill(String latestSkill) {
-
-  return Card(
-
-    child: ListTile(
-
-      leading: const Icon(
-        Icons.history,
-        color: Colors.blue,
-      ),
-
-      title: const Text(
-        "Most Recent Skill",
-      ),
-
-      subtitle: Text(latestSkill),
-    ),
+          StatCard(
+            icon: Icons.trending_up,
+            color: Colors.indigo,
+            title: "Average",
+            value: "${average.toStringAsFixed(0)}%",
+          ),
+        ],
+      );
+    },
   );
 }
-
 Widget buildMotivationCard() {
 
   return Card(
